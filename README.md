@@ -1,2 +1,1 @@
-# CBot-Python
-Python release of CBot
+<img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/CBot-official/CBot-python"> <img alt="GitHub" src="https://img.shields.io/github/license/CBot-official/CBot-python">
