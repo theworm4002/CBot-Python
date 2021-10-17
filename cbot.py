@@ -1,31 +1,70 @@
 #!/usr/bin/python
 
-NICK = "CBot"
-ALT = "CBot-"
-IDENT = "CBot"
-REALNAME = "CBot"
-SERVER = "irc.technet.xi.ht"
-PORT = 6667
-CHANNEL = "#test"
+###############################################################################
+#    _____ ____        _   
+#   / ____|  _ \      | |                  
+#  | |    | |_) | ___ | |_ 
+#  | |    |  _ < / _ \| __|
+#  | |____| |_) | (_) | |_ 
+#   \_____|____/ \___/ \__|
+#
+#################################################
+# Release: v0.0.1 Python
+#
+#################################################
 
-import socket
-import sys
-import string
-import time
+## Bot nick.
+BNICK = 'CBot'
+
+## Bot alter nick.
+BALT = 'CBot'
+
+## Bot ident.
+BIDENT = 'CBot'
+
+## Bot realname.
+BREALNAME = 'CBot'
+
+## Bot server.
+BSERVER = 'irc.address.org'
+
+## Bot port.
+BPORT = 6667
+
+## Bot channel.
+BCHANNEL = '#computertech'
+
+## Bot admin.
+BADMIN = 'Your-nick'
+
+## Nickserv passsord.
+BPASSWORD = 'Password'
+
+### End of configuration ###
+
+import socket, sys, string
 
 sockChan = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-sockChan.connect((SERVER, PORT))
-sockChan.send('NICK CBot\r\n'.encode('UTF-8'))
-sockChan.send('USER CBot * * :CBot\r\n'.encode('UTF-8'))
+sockChan.connect((BSERVER, BPORT))
+sockChan.send('NICK ' +  BNICK + '\r\n'.encode('UTF-8'))
+sockChan.send('USER ' + BREALNAME +  '* * :' + BIDENT + '\r\n'.encode('UTF-8'))
 
 while 1: 
-    text = sockChan.recv(2040)
-    print(text)
-    foo = text.split()
-    if 'PING' in foo[0]:
-        sockChan.send("PONG " + foo[1] + "\r\n")
-    elif '001' in foo[1]:
-        sockChan.send("JOIN " + CHANNEL + "\r\n")
-    elif '433' in foo[1]:
-        sockChan.send("NICK " + ALT + "\r\n")
+    line = sockChan.recv(2040)
+    print(line)
+    lline = line.split()
+    if 'PING' in lline[0]:
+      sockChan.send("PONG " + lline[1] + "\r\n")
+    if '001' in lline[1]:
+      sockChan.send("JOIN " + BCHANNEL + "\r\n")
+      sockChan.send("PRIVMSG NICKSERV :IDENTIFY " + BPASSWORD + "\r\n")
+    if '433' in lline[1]:
+        sockChan.send("NICK " + BALT + "\r\n")
+    if 'PRIVMSG' in lline[1]:
+      if '!quit' in lline[3]:
+        sockChan.send("QUIT \r\n")
+      if '!join' in lline[3]:
+        sockChan.send("JOIN " + lline[4] + "\r\n")
+      if '!part' in lline[3]:
+        sockChan.send("PART " + lline[4] + "\r\n")
