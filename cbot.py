@@ -1,33 +1,43 @@
 #!/usr/bin/python
 
+
+
+
+import sys
+import time
+import socket
+import string
+
 from config import *
 
-import socket
-import sys
-import string
-import time
+debugmode = True
 
 sockChan = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+sockChan.connect_ex((BotServer, BotPort))
 
-sockChan.connect((BSERVER, BPORT))
-sockChan.send('NICK ' + BNICK + '\r\n'.encode('UTF-8'))
-sockChan.send('USER ' + BREALNAME +  ' * * :' + BIDENT + '\r\n'.encode('UTF-8'))
+sendIRC(f'USER {BotIdent} * * :{BotRealName}') #Command: USER Parameters: <user> <mode> <unused> <realname>
+sendIRC('NICK ' + BotNick)
+connected = True
 
-while 1: 
-    line = sockChan.recv(2040)
+while connected: 
+    line = sockChan.recv(2040).decode('utf-8')
+
     print(line)
-    lline = line.split()
-    if 'PING' in lline[0]:
-        sockChan.send("PONG " + lline[1] + "\r\n")
-    if '001' in lline[1]:
-        sockChan.send("JOIN " + BCHANNEL + "\r\n")
-       # sockChan.send("PRIVMSG NICKSERV :IDENTIFY " + BPASSWORD + "\r\n")
-    if '433' in lline[1]:
-        sockChan.send("NICK " + BALT + "\r\n")
-    if 'PRIVMSG' in lline[1]:
-      if '!quit' in lline[3]:
-         sockChan.send("QUIT \r\n")
-      if '!join' in lline[3]:
-        sockChan.send("JOIN " + lline[4] + "\r\n")
-      if '!part' in lline[3]:
-        sockChan.send("PART " + lline[4] + "\r\n")
+    
+    if line != "":
+        lline = line.split()
+        if 'PING' in lline[0]:
+            sendIRC("PONG " + lline[1] )
+        if '001' in lline[1]:
+            sockChan.send(bytes("JOIN " + BotChannel )
+           # sockChan.send("PRIVMSG NICKSERV :IDENTIFY " + BPASSWORD + "\r\n")
+        if '433' in lline[1]:
+            sockChan.send(bytes("NICK " + BotAlt )
+        if 'PRIVMSG' in lline[1]:
+          if '!quit' in lline[3]:
+             sockChan.send(bytes("QUIT")
+          if '!join' in lline[3]:
+            sockChan.send(bytes("JOIN " + lline[4] )
+          if '!part' in lline[3]:
+            sockChan.send(bytes("PART " + lline[4] )
+ #if lline.find('PING') != -1:
