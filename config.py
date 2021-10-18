@@ -8,34 +8,38 @@
 #
 #################################################
 # Description:
-#
+#    '(☞ﾟヮﾟ)☞ | The Sexy Cbot |  ☜(ﾟヮﾟ☜)'
 #
 #################################################
 
-### Start of configuration ###
 
-## Bot nick.
-BNICK = "CBot"
+#################################################
+############# Booleans ##########################
 
-## Bot alter nick.
-BALT = "CBot-"
+debugmode = True # If True, all log.info msgs will be active. (use False if you want to run in the background)
+usessl = True # Connect using SSL. (True or False)
+useServPass = False # Use a password to connect to IRC Server. (True or False)
+ircv3Cap = False # Client Capability Negotiation for IRC v3. (True or False)
+usesasl = False # Authenticate using SASL. (True or False)
 
-## Bot ident.
-BIDENT = "CBot"
+#################################################
+############# Bot Settings ######################   
 
-## Bot realname.
-BREALNAME = "CBot"
+botNick = 'CBot' # Bot nick. 
+botIdent = 'Py_CBot' # Bot ident.
+botChannel = '#Computertech' # Bot channel.
+botRealname = 'CTs_Mum' # Bot realname.
+botAltNick = 'CBot-' # Bot alter nick.
+botNsPass = 'WormIsCool' # Bots NickServ password.
 
-## Bot server.
-BSERVER = "irc.libera.chat"
+port = 6697 # Server port.
+serverPass = 'User:Pass' 
+server = 'irc.irchighway.net' # Bot server.
+nickserv = 'NickServ' # sometimes it's differnet
 
-## Bot port.
-BPORT = 6667
+adminName = 'Worm' # Bot admin.
 
-## Bot admin.
-BADMIN = "Your-nick"
+exitcode = 'die' # Command 'exitcode + botnick' is used to kill the bot.
 
-## Bot channel.
-BCHANNEL = "#CBot"
-
-### End of configuration ###
+software = '(☞ﾟヮﾟ)☞ | The Sexy Cbot |  ☜(ﾟヮﾟ☜)'
+version = ''
